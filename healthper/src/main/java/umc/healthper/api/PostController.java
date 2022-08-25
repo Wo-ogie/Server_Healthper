@@ -10,11 +10,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import umc.healthper.domain.member.Member;
 import umc.healthper.domain.post.Post;
 import umc.healthper.dto.post.*;
 import umc.healthper.exception.ExceptionResponse;
+import umc.healthper.global.fileupload.FileDetail;
+import umc.healthper.global.fileupload.FileUploadService;
 import umc.healthper.service.MemberService;
 import umc.healthper.service.PostService;
 
@@ -29,6 +33,12 @@ public class PostController {
 
     private final PostService postService;
     private final MemberService memberService;
+    private final FileUploadService fileUploadService;
+
+    @PostMapping("/upload")
+    public ResponseEntity<FileDetail> saveFile(@RequestParam("file") MultipartFile multipartFile) {
+        return ResponseEntity.ok(fileUploadService.save(multipartFile));
+    }
 
     @Operation(summary = "게시글 생성",
             description = "게시글 정보를 받아 새로운 게시글을 생성합니다.")

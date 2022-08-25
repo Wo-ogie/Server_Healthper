@@ -10,11 +10,18 @@ import java.util.TimeZone;
 @SpringBootApplication
 @EnableJpaAuditing
 public class HealthperApplication {
+	// Timezone Settings
 	@PostConstruct
 	private void start() {
 		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));}
 
 	public static void main(String[] args) {
 		SpringApplication.run(HealthperApplication.class, args);
+
+	}
+
+	// AWS S3 Settings
+	static {
+		System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
 	}
 }
